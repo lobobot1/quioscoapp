@@ -7,7 +7,11 @@ import { prisma } from "@/lib/prisma";
  * @returns {NextResponse}
  */
 export async function GET(req) {
-  const data = await prisma.categoria.findMany();
+  const data = await prisma.categoria.findMany({
+    include: {
+      productos: true,
+    }
+  });
 
   return NextResponse.json(
     {
