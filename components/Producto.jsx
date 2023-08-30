@@ -3,6 +3,10 @@ import { formatearDinero } from "../helpers/functions"
 
 const Producto = ({product}) => {
     const { nombre, precio, imagen } = product;
+
+    const handleClick = () => {
+        console.log('Agregar al pedido')
+    }
   return (
     <div className="border p-3">
         <Image
@@ -18,6 +22,13 @@ const Producto = ({product}) => {
             <p className="mt-5 font-black text-4xl text-amber-500">
                 {formatearDinero(precio)}
             </p>
+            <button
+                type="button"
+                className="bg-indigo-600 w-full text-white mt-5 p-3 uppercase font-bold hover:bg-indigo-800 transition-colors duration-300 ease-in-out"
+                onClick={() => handleClick()}
+            >
+                Agregar pedido
+            </button>
         </div>
     </div>
   )

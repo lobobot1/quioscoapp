@@ -1,12 +1,13 @@
 "use client";
 import { useState, useEffect, createContext } from "react";
-import { getCategories } from "@/fetch/categoria";
+import { getCategories } from "../fetch/categoria";
 
 const QuioscoContext = createContext();
 
 function QuioscoProvider({ children }) {
   const [categories, setCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({});
+  const [producto, setProducto] = useState([]);
 
   const getCategory = async () => {
     const res = await getCategories();
@@ -26,6 +27,9 @@ function QuioscoProvider({ children }) {
     const category = categories.find(category => category.id === id);
     setCurrentCategory(category);
     };
+    const handleSetProducto = (product) =>{
+      setProducto(product);
+    };
 
   return (
     <QuioscoContext.Provider
@@ -33,6 +37,7 @@ function QuioscoProvider({ children }) {
         categories,
         currentCategory,
         handleClickCategory,
+        handleSetProducto,
       }}
     >
       {children}
