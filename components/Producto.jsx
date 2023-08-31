@@ -1,12 +1,13 @@
+"use client"
 import Image from "next/image"
 import { formatearDinero } from "../helpers/functions"
+import useQuiosco from "../hooks/useQuiosco";
 
 const Producto = ({product}) => {
     const { nombre, precio, imagen } = product;
 
-    const handleClick = () => {
-        console.log('Agregar al pedido')
-    }
+    const {handleSetProducto, handleChangeModal} = useQuiosco();
+
   return (
     <div className="border p-3">
         <Image
@@ -25,7 +26,10 @@ const Producto = ({product}) => {
             <button
                 type="button"
                 className="bg-indigo-600 w-full text-white mt-5 p-3 uppercase font-bold hover:bg-indigo-800 transition-colors duration-300 ease-in-out"
-                onClick={() => handleClick()}
+                onClick={() => {
+                    handleSetProducto(product)
+                    handleChangeModal()
+                }}
             >
                 Agregar pedido
             </button>
