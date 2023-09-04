@@ -2,6 +2,8 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import SideBar from '../components/SideBar'
 import {QuioscoProvider} from '../context/QuioscoProvider'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,6 +22,7 @@ export default function RootLayout({ children }) {
                 </div>
               </main>
             </div>
+           <ToastContainer />
           </QuioscoProvider>
         </body>
       </html>

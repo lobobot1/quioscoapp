@@ -3,6 +3,7 @@ import { useState, useEffect, createContext } from "react";
 import { getCategories } from "../fetch/categoria";
 import Modal from "react-modal";
 import ModalProducto from "../components/ModalProducto";
+import { toast } from "react-toastify";
 
 const customStyles = {
   content: {
@@ -59,8 +60,10 @@ function QuioscoProvider({ children }) {
         productoState.id === producto.id ? producto : productoState
       );
       setPedido(pedidoActualizado);
+      toast.success('Producto actualizado en el pedido');
     }else{
       setPedido([...pedido, producto]);
+      toast.success('Producto agregado al pedido');
     }
     handleChangeModal();
   }
@@ -87,6 +90,7 @@ function QuioscoProvider({ children }) {
           <ModalProducto producto={producto} handleChangeModal={handleChangeModal} handleAgregarPedido={handleAgregarPedido} pedido={pedido}/>
         </Modal>
       )}
+
     </QuioscoContext.Provider>
   );
 }
