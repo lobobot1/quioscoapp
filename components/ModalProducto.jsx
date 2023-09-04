@@ -72,7 +72,7 @@ const ModalProducto = ({ producto, handleChangeModal, handleAgregarPedido, pedid
 
           <p className="text-3xl">{cantidad}</p>
           <button
-            onClick={() => {if(cantidad<=10)handleClick(1)}}
+            onClick={() => {if(cantidad<10)handleClick(1)}}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
