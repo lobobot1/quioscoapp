@@ -4,6 +4,7 @@ import { getCategories } from "../fetch/categoria";
 import Modal from "react-modal";
 import ModalProducto from "../components/ModalProducto";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const customStyles = {
   content: {
@@ -26,6 +27,11 @@ function QuioscoProvider({ children }) {
   const [producto, setProducto] = useState({});
   const [modal, setModal] = useState(false);
   const [pedido, setPedido] = useState([]);
+  const [nombre, setNombre] = useState('');
+  const [total, setTotal] = useState(0);
+
+
+  const router = useRouter();
 
   const getCategory = async () => {
     const res = await getCategories();
@@ -44,6 +50,7 @@ function QuioscoProvider({ children }) {
   const handleClickCategory = (id) => {
     const category = categories.find((category) => category.id === id);
     setCurrentCategory(category);
+    router.push(`/`);
   };
 
   const handleSetProducto = (product) => {
@@ -54,7 +61,7 @@ function QuioscoProvider({ children }) {
     setModal(!modal);
   };
 
-  const handleAgregarPedido = ({imagen,categoriaId,...producto}) => {
+  const handleAgregarPedido = ({categoriaId,...producto}) => {
     if(pedido.some(productoState => productoState.id === producto.id)){
       const pedidoActualizado = pedido.map(productoState => 
         productoState.id === producto.id ? producto : productoState
@@ -68,6 +75,28 @@ function QuioscoProvider({ children }) {
     handleChangeModal();
   }
 
+  const handleEditarCantidades = id => {
+    const productoActualizar = pedido.filter(producto=>producto.id === id);
+    setProducto(productoActualizar[0]);
+    handleChangeModal();
+  }
+
+  const handleEliminarProducto = id => {
+    const pedidoActualizado = pedido.filter(producto=>producto.id !== id);
+    setPedido(pedidoActualizado);
+    toast.success('Producto eliminado del pedido');
+  }
+
+  const colocarOrden = async (e) => {
+    e.preventDefault();
+    console.log("colocar orden");
+  };
+
+  useEffect(() => {
+    const total = pedido.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+    setTotal(total);
+  }, [pedido]);
+
   return (
     <QuioscoContext.Provider
       value={{
@@ -77,6 +106,13 @@ function QuioscoProvider({ children }) {
         handleSetProducto,
         modal,
         handleChangeModal,
+        pedido,
+        handleEditarCantidades,
+        handleEliminarProducto,
+        nombre,
+        setNombre,
+        colocarOrden,
+        total
       }}
     >
       {children}
